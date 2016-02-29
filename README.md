@@ -16,6 +16,9 @@ lightweight application launcher using dmenu
 Install **ruby** and **dmenu** with you're package manager like apg-get or pacman.
 ```
 sudo gem install --no-user-install --no-ri --no-rdoc json fileutils
+cd /tmp
+git clone https://github.com/Ghardo/findex.git
+cd findex
 sudo cp -R src/ /opt/findex
 sudo ln -s /opt/findex/findex.rb /usr/bin/findex
 findex -u
