@@ -10,7 +10,7 @@ require 'yaml'
 require 'lib/Pathcache.rb'
 require 'lib/History.rb'
 
-VERSION="3.4.1"
+VERSION="3.4.2"
 
 APPFOLDER="#{ENV['HOME']}/.config/findex"
 
@@ -98,8 +98,8 @@ end
 
 match = (/(?<app>[^;!#]+)((?<opt>([;#]))|!(?<theme>[0-9]{,1}))?$/).match(choice)
 app = match['app']
-terminal = match['opt'] != nil and match['opt'].include?(";") 
-sudo = match['opt'] != nil and match['opt'].include?("#") 
+terminal = (match['opt'] != nil and match['opt'].include?(";"))
+sudo = (match['opt'] != nil and match['opt'].include?("#"))
 theme = match['theme'] != nil
 
 if theme
