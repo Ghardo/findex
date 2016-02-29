@@ -37,7 +37,7 @@ See **~/.config/findex/config** for example
 |**-v**, **--version**| prints the version|
 |**-h**, **--help**| prints help|
 
-## Usgae
+## Usage
 
 | Modifier | Example | Description |
 | --- | --- | --- |
