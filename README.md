@@ -11,6 +11,14 @@ lightweight application launcher using dmenu
 #### third party 
 * [dmenu-4.6](http://tools.suckless.org/dmenu/)
 
+## Installatin
+```
+sudo cp -R src/ /opt/findex
+sudo ln -s /opt/findex/findex.rb /usr/bin/findex
+findex -u
+```
+Create a shortcut like ***Windows Key+Space*** with command ***/usr/bin/findex*** in you're desktop environment.
+
 ## Configuration
 See **src/default.yaml** or **~/.config/findex/config** for example 
 
