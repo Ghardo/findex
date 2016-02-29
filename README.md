@@ -13,7 +13,7 @@ lightweight application launcher using dmenu
 
 ## Installation
 
-Install **ruby** and **dmenu** with you're package manager like apg-get or pacman.
+Install **ruby** and **dmenu** with you're package manager like apt-get or pacman.
 ```
 sudo gem install --no-user-install --no-ri --no-rdoc json fileutils
 cd /tmp
