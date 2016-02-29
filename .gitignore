@@ -1,0 +1,8 @@
+*\.gem
+.buildpath
+.project
+dist/
+buildfiles/ArchLinux/src/
+buildfiles/ArchLinux/pkg/
+*.pkg.tar.xz
+*.deb
