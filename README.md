@@ -26,7 +26,7 @@ findex -u
 Create a shortcut like ***Windows Key+Space*** with command ***/usr/bin/findex*** in you're desktop environment.
 
 ## Configuration
-See **src/default.yaml** or **~/.config/findex/config** for example 
+See **~/.config/findex/config** for example 
 
 ## Arguments
 
