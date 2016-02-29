@@ -11,7 +11,7 @@ lightweight application launcher using dmenu
 #### third party 
 * [dmenu-4.6](http://tools.suckless.org/dmenu/)
 
-## Installatin
+## Installation
 ```
 sudo cp -R src/ /opt/findex
 sudo ln -s /opt/findex/findex.rb /usr/bin/findex
