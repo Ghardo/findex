@@ -145,7 +145,7 @@ if app_cfg != nil
 		exec("nohup #{cfg['terminal_launch'].gsub('%TITLE%', app).gsub('%COMMAND%', command)} >/dev/null 2>&1 &")
 	else
 		if app_cfg.include?("sudo") and app_cfg["sudo"] 
-			command = "gksu #{command}"
+			command = "gksu -k #{command}"
 		end
 		
 		exec("nohup #{command} >/dev/null 2>&1 &")
@@ -163,7 +163,7 @@ else
 			exec("nohup #{cfg['terminal_launch'].gsub('%TITLE%', app).gsub('%COMMAND%', command)} >/dev/null 2>&1 &")
 		else
 			if sudo
-				command = "gksu #{command}"
+				command = "gksu -k #{command}"
 			end
 			
 			exec("nohup #{command} >/dev/null 2>&1 &")
