@@ -8,7 +8,7 @@ colors:
   selected:
    foreground: '#000000'
    background: '#00A1FF'
-path: ''
+path: '/home/ghardo/bin'
 exclude_path: '/bin,/usr/sbin,/sbin'
 exclude: 'ls,cd'
 alternative_theme: 'light'
