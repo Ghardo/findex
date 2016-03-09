@@ -2,9 +2,32 @@
 require 'rubygems'
 require 'json'
 
-class Pathcache
+class Cache
+
 	def initialize(file)
 		@file = file
+		@cache = []
+		if !self.exists?
+			self.save
+		else
+			self.load
+		end
+	end
+
+	def load
+		buffer = File.open("#{@file}", 'r').read
+		@cache = JSON.parse(buffer)
+	end
+
+	def save
+		fh = File.open("#{@file}", 'w')
+		fh.write @cache.sort.to_json
+		fh.close
+	end
+
+	def clear
+		File.delete @file
+		@history = []
 	end
 
 	def exists?
@@ -12,7 +35,7 @@ class Pathcache
 	end
 
 	def update(paths, exclude_paths = [], exclude = [])
-		binarys = []
+		self.clear
 		paths.each {|path|
 			continue = false
 			exclude_paths.each {|exclude_folder|
@@ -31,20 +54,16 @@ class Pathcache
 
 			Dir["#{path}/*"].each {|file|
 				if File.executable_real?("#{file}")
-					binarys.push File.basename(file)
+					@cache.push File.basename(file)
 				end
 			}
 		}
 
-		binarys = binarys - exclude
-
-		fh_pathcache = File.open(@file, 'w')
-		fh_pathcache.puts binarys.sort.to_json
-		fh_pathcache.close
+		@cache = @cache - exclude
+		self.save
 	end
 	
 	def get
-		buffer = File.open(@file, 'r').read
-		JSON.parse(buffer)
+		@cache
 	end
 end

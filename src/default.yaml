@@ -19,28 +19,22 @@ themes:
   light:
     gtk_theme: 'ManjaroFlatLight'
     gtkrc: '/usr/share/themes/ManjaroFlatLight/gtk-2.0/gtkrc'
-apps:
+alias:
   keepassx:
     theme: 'light'
-    terminal: false
   GitEye:
     theme: 'light'
-    terminal: false
   filezilla:
     theme: 'light'
-    terminal: false
   gitg:
     theme: 'light'
-    terminal: false
   iftop:
     terminal: true
     sudo: true
   htop:
     terminal: true
-alias:
   mysqlide:
     theme: 'light'
-    terminal: false
     command: 'phpstorm /home/ghardo/work/mysql/'
   logcat:
     terminal: true

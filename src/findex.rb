@@ -7,10 +7,11 @@ require 'getoptlong'
 require 'json'
 require 'fileutils'
 require 'yaml'
-require 'lib/Pathcache.rb'
+require 'lib/Cache.rb'
 require 'lib/History.rb'
+require 'pp'
 
-VERSION="3.4.2"
+VERSION="3.5.0"
 
 APPFOLDER="#{ENV['HOME']}/.config/findex"
 
@@ -22,20 +23,20 @@ if !File.exists?("#{APPFOLDER}/config")
 	FileUtils.copy_file "#{SCRIPTPATH}/default.yaml", "#{APPFOLDER}/config"
 end
 
-def update_pathcache(pc, cfg)
+def update_cache(cache, cfg)
 	if cfg['exclude'] != nil and cfg['exclude'].kind_of?(String)
-        exclude = cfg['exclude'].split(',')
-      else
-        exclude = []
-      end
+		exclude = cfg['exclude'].split(',')
+	else
+		exclude = []
+	end
 
-      if cfg['exclude_path'] != nil and cfg['exclude_path'].kind_of?(String)
-        exclude_paths = cfg['exclude_path'].split(',')
-      else
-        exclude_paths = []
-      end
+	if cfg['exclude_path'] != nil and cfg['exclude_path'].kind_of?(String)
+		exclude_paths = cfg['exclude_path'].split(',')
+	else
+		exclude_paths = []
+	end
 
-      pc.update ENV['PATH'].split(':'), exclude_paths, exclude
+	cache.update ENV['PATH'].split(':'), exclude_paths, exclude
 end
 
 def phelp(short, long, desc)
@@ -47,9 +48,9 @@ cfg = YAML::load( File.open( "#{APPFOLDER}/config" ) )
 ENV['PATH']="#{ENV['PATH']}:#{cfg['path']}"
 
 h = History.new "#{APPFOLDER}/history", cfg['history_size'].to_i
-pc = Pathcache.new "#{APPFOLDER}/path_cache"
-if !pc.exists?
-	update_pathcache pc, cfg
+cache = Cache.new "#{APPFOLDER}/cache"
+if !cache.exists?
+	update_pathcache cache, cfg
 end
 
 opts = GetoptLong.new(
@@ -62,26 +63,26 @@ opts = GetoptLong.new(
 opts.each do |opt, arg|
   case opt
     when '--help'
-	  puts "Fast Quick Launcher using dmenu\n\n"
-	  puts "Usage: findex [OPTION]\n\n"
-      phelp '-h', '--help', 'prints this help'
-      phelp '-u', '--update', 'updates the executables cache'
-      phelp '-c', '--clear-history', 'deletes the history'
-      phelp '-v', '--version', 'prints the version'
-      exit 0
+		puts "Fast Quick Launcher using dmenu\n\n"
+		puts "Usage: findex [OPTION]\n\n"
+		phelp '-h', '--help', 'prints this help'
+		phelp '-u', '--update', 'updates the executables cache'
+		phelp '-c', '--clear-history', 'deletes the history'
+		phelp '-v', '--version', 'prints the version'
+		exit 0
     when '--update'
-      update_pathcache pc,cfg
-      exit 0
+		update_cache cache,cfg
+		exit 0
     when '--clear-history'
-      h.clear
-      exit 0
-		when '--version'
-			puts "Version #{VERSION}"
-			exit 0
+		h.clear
+		exit 0
+	when '--version'
+		puts "Version #{VERSION}"
+		exit 0
   end
 end
 
-pcache = (pc.get + cfg['alias'].keys).sort
+pcache = (cache.get + cfg['alias'].keys).sort
 
 h.get.each{|his|
 	index = pcache.find(his)
@@ -120,53 +121,36 @@ app_cfg = nil
 if cfg['alias'].include?(app)
 
 	app_cfg = cfg['alias'][app]
-	command = app_cfg['command']
 
-elsif cfg['apps'].include?(app)
-
-	app_cfg = cfg['apps'][app]
-	command = app
-else
-	command = app
-end
-
-if app_cfg != nil
+	if app_cfg.include?('command') 
+		command = app_cfg['command']
+	else
+		command = app
+	end
 
 	if app_cfg.include?('theme') and app_cfg['theme'] != false and theme == false
 		ENV['GTK2_RC_FILES'] = cfg['themes'][app_cfg['theme']]['gtkrc']
 		ENV['GTK_THEME'] = cfg['themes'][app_cfg['theme']]['gtk_theme']
 	end
 
-	if app_cfg['terminal'] == true
-		if app_cfg.include?("sudo") and app_cfg["sudo"] 
-			command = "sudo #{command}"
-		end
-	
-		exec("nohup #{cfg['terminal_launch'].gsub('%TITLE%', app).gsub('%COMMAND%', command)} >/dev/null 2>&1 &")
-	else
-		if app_cfg.include?("sudo") and app_cfg["sudo"] 
-			command = "gksu -k #{command}"
-		end
-		
-		exec("nohup #{command} >/dev/null 2>&1 &")
-	end
-
-	exit 0
-
+	terminal = (app_cfg.include?("terminal") and app_cfg['terminal'] == true)
+	sudo = (app_cfg.include?("sudo") and app_cfg["sudo"])
 else
+	command = app
+end
 
-	if terminal
-			if sudo
-				command = "sudo #{command}"
-			end
-			
-			exec("nohup #{cfg['terminal_launch'].gsub('%TITLE%', app).gsub('%COMMAND%', command)} >/dev/null 2>&1 &")
-		else
-			if sudo
-				command = "gksu -k #{command}"
-			end
-			
-			exec("nohup #{command} >/dev/null 2>&1 &")
+pp command
+
+if terminal
+	if sudo
+		command = "sudo #{command}"
 	end
-
+	
+	exec("nohup #{cfg['terminal_launch'].gsub('%TITLE%', app).gsub('%COMMAND%', command)} >/dev/null 2>&1 &")
+else
+	if sudo
+		command = "gksu -k #{command}"
+	end
+	
+	exec("nohup #{command} >/dev/null 2>&1 &")
 end

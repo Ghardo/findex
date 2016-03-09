@@ -7,7 +7,7 @@ class History
 		@size = size
 		@file = file
 		@history = []
-		if !File.exists?(file)
+		if !self.exists?
 			self.save
 		else
 			self.load
@@ -16,7 +16,7 @@ class History
 
 	def append(value)
 		if value.length == 0
-			p "leerer String"
+			p "empty string"
 			return
 		end
 
@@ -38,6 +38,10 @@ class History
 
 	def get
 		@history.reverse
+	end
+
+	def exists?
+		return File.exists?(@file)
 	end
 
 	def load
