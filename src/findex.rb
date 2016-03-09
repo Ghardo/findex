@@ -9,7 +9,6 @@ require 'fileutils'
 require 'yaml'
 require 'lib/Cache.rb'
 require 'lib/History.rb'
-require 'pp'
 
 VERSION="3.5.0"
 
