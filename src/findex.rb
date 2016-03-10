@@ -138,8 +138,6 @@ else
 	command = app
 end
 
-pp command
-
 if terminal
 	if sudo
 		command = "sudo #{command}"
