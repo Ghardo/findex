@@ -10,7 +10,7 @@ require 'yaml'
 require 'lib/Cache.rb'
 require 'lib/History.rb'
 
-VERSION="3.5.0"
+VERSION="3.6.0"
 
 APPFOLDER="#{ENV['HOME']}/.config/findex"
 
@@ -138,16 +138,23 @@ else
 	command = app
 end
 
-if terminal
-	if sudo
-		command = "sudo #{command}"
+begin
+
+	if terminal
+		if sudo
+			command = "sudo #{command}"
+		end
+
+		exec("#{cfg['terminal_launch'].gsub('%TITLE%', app).gsub('%COMMAND%', command)}")
+	else
+		if sudo
+			command = "gksu -k #{command}"
+		end
+		
+		exec("#{command}")
 	end
-	
-	exec("nohup #{cfg['terminal_launch'].gsub('%TITLE%', app).gsub('%COMMAND%', command)} >/dev/null 2>&1 &")
-else
-	if sudo
-		command = "gksu -k #{command}"
-	end
-	
-	exec("nohup #{command} >/dev/null 2>&1 &")
+rescue SystemCallError
+	%x{echo "#{command} : command not found" | dmenu -p "ERROR" -i -l 1 -nb "#{cfg['colors']['normal']['background']}" -nf "#{cfg['colors']['normal']['foreground']}" -sb "#{cfg['colors']['selected']['background']}" -sf "#{cfg['colors']['selected']['foreground']}"}.chomp
+else 
+	%x{echo "#{command} : unknown error" | dmenu -p "ERROR" -i -l 1 -nb "#{cfg['colors']['normal']['background']}" -nf "#{cfg['colors']['normal']['foreground']}" -sb "#{cfg['colors']['selected']['background']}" -sf "#{cfg['colors']['selected']['foreground']}"}.chomp
 end
