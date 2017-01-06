@@ -20,6 +20,12 @@ class History
 			return
 		end
 
+		self.deleteValue value
+
+		@history.push value
+	end
+
+	def deleteValue(value)
 		key = @history.index(value)
 		if key != nil
 			@history.delete_at key
@@ -27,8 +33,6 @@ class History
 		if @history.length == @size
 			@history.shift
 		end
-
-		@history.push value
 	end
 
 	def clear
