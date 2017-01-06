@@ -10,7 +10,7 @@ require 'yaml'
 require 'lib/Cache.rb'
 require 'lib/History.rb'
 
-VERSION="3.6.0"
+VERSION="3.6.1"
 
 APPFOLDER="#{ENV['HOME']}/.config/findex"
 
@@ -155,6 +155,10 @@ begin
 	end
 rescue SystemCallError
 	%x{echo "#{command} : command not found" | dmenu -p "ERROR" -i -l 1 -nb "#{cfg['colors']['normal']['background']}" -nf "#{cfg['colors']['normal']['foreground']}" -sb "#{cfg['colors']['selected']['background']}" -sf "#{cfg['colors']['selected']['foreground']}"}.chomp
+
 else 
 	%x{echo "#{command} : unknown error" | dmenu -p "ERROR" -i -l 1 -nb "#{cfg['colors']['normal']['background']}" -nf "#{cfg['colors']['normal']['foreground']}" -sb "#{cfg['colors']['selected']['background']}" -sf "#{cfg['colors']['selected']['foreground']}"}.chomp
+ensure
+	h.deleteValue choice
+	h.save
 end
