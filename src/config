@@ -1,0 +1,26 @@
+history_size: 50
+dropdown_size: 20
+monitor: auto
+terminal_launch: urxvt --title "%TITLE%" --hold -e bash -c "%COMAND%"
+colors:
+  foreground: '#FF482A'
+  background: '#000000'
+use_path_env: true
+paths: 
+exclude_paths: 
+  - '/bin'
+  - '/usr/sbin'
+  - '/sbin'
+exclude: 'ls,cd,ln,file,mkdir,touch,chmod,chown,cat,dd,df,mv,pwd'
+alternative_theme: 'light'
+themes:
+  light:
+    gtk_theme: 'Adwaita-Manjaro-light'
+    gtkrc: '/usr/share/themes/Adwaita-Manjaro-light/gtk-2.0/gtkrc'
+alias:
+  gitg:
+    theme: 'light'
+    terminal: false
+  vol:
+    terminal: true
+    command: 'alsamixer'
