@@ -12,6 +12,7 @@ module Findex
 			@gtkrc = nil
 			@theme = nil
 			@terminalWrapper = nil
+			@paths = nil
 		end
 
 		def setComand(value)
@@ -70,9 +71,18 @@ module Findex
 			return @terminalWrapper
 		end
 
-		def execute()
+		def setPaths(paths)
+			@paths = paths
+		end
+
+		def getPaths
+			return @paths
+		end 
+
+		def execute
 
 			setThemeEnv
+			setPathEnv
 
 			if @terminal
 				execute_terminal
@@ -87,6 +97,10 @@ module Findex
 		def setThemeEnv
 			ENV['GTK2_RC_FILES'] = @gtkrc unless @gtkrc == nil
 			ENV['GTK_THEME'] = @theme unless @theme == nil
+		end
+
+		def setPathEnv
+			ENV['PATH'] = @paths.join(':') unless @paths == nil
 		end
 
 		def execute_gui()
