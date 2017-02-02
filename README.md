@@ -47,3 +47,5 @@ See **~/.config/findex/config** for example
 |![0-9]|**\[COMMAND\]!** |  run  **\[COMMAND\]** with the theme wohis set under the index in the teme configuration array|
 |#|**\[COMMAND\]#** |  run  **\[COMMAND\]** with sudo (terminal) or gksu|
 
+Modifieres can be combined but the Theme Modifier must be at least.
+
