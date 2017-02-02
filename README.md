@@ -44,5 +44,6 @@ See **~/.config/findex/config** for example
 ||**\[COMMAND\]** | normal execution of **\[COMMAND\]**|
 |;|**\[COMMAND\];** |run **\[COMMAND\]** in configured terminal DEFAULT: urxvt --title "%TITLE%" --hold -e bash -c "%COMMAND%"|
 |!|**\[COMMAND\]!** |  run  **\[COMMAND\]** with alternative gtk themes (some applications conflicts with dark themes)|
+|![0-9]|**\[COMMAND\]!** |  run  **\[COMMAND\]** with the theme wohis set under the index in the teme configuration array|
 |#|**\[COMMAND\]#** |  run  **\[COMMAND\]** with sudo (terminal) or gksu|
 
