@@ -43,6 +43,10 @@ module Findex
 			end
 		end
 
+		def getPaths
+			return @paths
+		end
+
 		def update
 			self.clear
 
