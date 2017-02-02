@@ -10,6 +10,7 @@ module Findex
 		def initialize(file)
 			@paths = []
 			@exclude = []
+			@excludePath = []
 			super file
 		end
 
