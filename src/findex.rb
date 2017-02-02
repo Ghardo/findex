@@ -15,8 +15,6 @@ if setup
 	puts "initializing app folder"
 	Dir.mkdir APPFOLDER
 
-	FileUtils.copy_file "#{File.dirname(__FILE__)}/config", "#{APPFOLDER}/config"
-
 	findex = Findex::App.new
 	findex.update
 end
