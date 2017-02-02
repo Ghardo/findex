@@ -47,21 +47,7 @@ module Findex
 			@history.clear
 			@cache.clear
 
-			if @config.key?('use_path_env') and @config['use_path_env']
-				@cache.addPath ENV['PATH'].split(':')
-			end
-
-			if @config.key?('paths') and @config['paths'].kind_of?(Array)
-				@cache.addPath @config['paths']
-			end
-
-			if @config.key?('exclude_paths') and @config['exclude_paths'].kind_of?(Array)
-				@cache.addPath @config['exclude_paths']
-			end
-
-			if @config.key?('exclude')
-				@cache.addExclude  @config['exclude'].split(',') | ['findex']
-			end
+			
 
 			@cache.update
 		end
@@ -115,11 +101,28 @@ module Findex
 
 		def initCache
 			@cache = Findex::BinCache.new "#{configpath}/cache"
+
+			if @config.key?('use_path_env') and @config['use_path_env']
+				@cache.addPath ENV['PATH'].split(':')
+			end
+
+			if @config.key?('paths') and @config['paths'].kind_of?(Array)
+				@cache.addPath @config['paths']
+			end
+
+			if @config.key?('exclude_paths') and @config['exclude_paths'].kind_of?(Array)
+				@cache.addExcludePath @config['exclude_paths']
+			end
+
+			if @config.key?('exclude')
+				@cache.addExclude  @config['exclude'].split(',') | ['findex']
+			end
 		end
 
 		def resolv(name)
 			c = Findex::Comand.new name
 			c.setTerminalWrapper @config['terminal_launch']
+			c.setPaths @cache.getPaths
 
 			comandMatch = (/^(?<comand>.*?)(?<opt>[;#!]+([0-9]+)?)/).match(name)
 
