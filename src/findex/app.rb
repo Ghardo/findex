@@ -87,7 +87,7 @@ module Findex
 
 			if !File.exists?("#{path}/config")
 				currentPath = File.realdirpath(File.dirname(__FILE__))
-				FileUtils.copy_file "#{currentPath}/default.yaml", "#{path}/config"
+				FileUtils.copy_file "#{currentPath}/../config", "#{path}/config"
 			end
 
 			@config = YAML::load( File.open( "#{path}/config" ) )
