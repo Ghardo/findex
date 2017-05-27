@@ -1,26 +1,38 @@
-history_size: 50
-dropdown_size: 20
-monitor: auto
+history_size: 50 
+dropdown_size: 20  
+monitor: auto # available options auto,1,2...
+# command for start applications in terminal. 
+# Available placeholders:
+# - %TITLE%
+# - %COMAND%
 terminal_launch: urxvt --title "%TITLE%" --hold -e bash -c "%COMAND%"
+# colors for dmenu
 colors:
   foreground: '#FF482A'
   background: '#000000'
+# set to true and all paths in the env are searched for executeables
 use_path_env: true
+# additional paths 
 paths: 
+# path to exclude
 exclude_paths: 
   - '/bin'
   - '/usr/sbin'
   - '/sbin'
+# commands to exclude
 exclude: 'ls,cd,ln,file,mkdir,touch,chmod,chown,cat,dd,df,mv,pwd'
+# alternative theme is used by modifier ! without number
 alternative_theme: 'light'
+# configured themes for aliasses or modifier. example: !1, !2 
 themes:
-  light:
+  light: # identifier to use in alias
     gtk_theme: 'Adwaita-Manjaro-light'
     gtkrc: '/usr/share/themes/Adwaita-Manjaro-light/gtk-2.0/gtkrc'
 alias:
-  gitg:
-    theme: 'light'
-    terminal: false
+  gitg: # name to use in findex, starts the given alias name as comand without a configured comand
+    terminal: false # use terminal [opional]
+    theme: 'light' # use theme light [opional]
+    root: false # use sudo or gksudo [opional]
   vol:
     terminal: true
     command: 'alsamixer'
