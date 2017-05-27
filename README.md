@@ -38,6 +38,9 @@ See **~/.config/findex/config** for example
 |**-h**, **--help**| prints help|
 
 ## Usage
+```
+<comand>[<modiffier>][<modiffier>]...
+```
 
 | Modifier | Example | Description |
 | --- | --- | --- |
@@ -48,4 +51,3 @@ See **~/.config/findex/config** for example
 |#|**\[COMMAND\]#** |  run  **\[COMMAND\]** with sudo (terminal) or gksu|
 
 Modifieres can be combined but the theme modifier must be at least.
-
