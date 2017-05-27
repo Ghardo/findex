@@ -104,9 +104,8 @@ module Findex
 		end
 
 		def execute_gui()
-
 			comand = getComand
-			comand = "gksu -k #{comand}" if @root
+			comand = "gksudo --message 'Enter password to run #{comand} as root' #{comand}" if @root
 
 			exec("#{comand}")
 		end
@@ -116,7 +115,7 @@ module Findex
 			title = @comand if @title == nil
 
 			comand = getComand
-			comand = "sudo #{comand}" if @root
+			comand = "echo 'Enter password to run #{comand} as root' && sudo #{comand}" if @root
 
 			wrapper = getTerminalWrapper
 
