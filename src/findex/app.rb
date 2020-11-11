@@ -122,6 +122,7 @@ module Findex
 		def resolv(name)
 			c = Findex::Comand.new name
 			c.setTerminalWrapper @config['terminal_launch']
+			c.setTerminalHoldWrapper @config['terminal_launch_hold']
 			c.setPaths @cache.getPaths
 
 			comandMatch = (/^(?<comand>.*?)(?<opt>[;#!]+([0-9]+)?)/).match(name)
@@ -139,6 +140,7 @@ module Findex
 				end
 
 				c.setTerminal resolved['terminal'] if resolved.key?('terminal')
+				c.setTerminalHold resolved['hold'] if resolved.key?('hold')
 				c.setRoot resolved['root'] if resolved.key?('root')
 
 				if resolved.key?('theme') 

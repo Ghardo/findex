@@ -7,11 +7,13 @@ module Findex
 		def initialize(comand)
 			@comand = comand
 			@terminal = false
+			@terminalHold = true
 			@root = false
 			@title = nil
 			@gtkrc = nil
 			@theme = nil
 			@terminalWrapper = nil
+			@terminalHoldWrapper = nil
 			@paths = nil
 		end
 
@@ -71,6 +73,22 @@ module Findex
 			return @terminalWrapper
 		end
 
+		def setTerminalHoldWrapper(value)
+			@terminalHoldWrapper = value
+		end
+
+		def getTerminalHoldWrapper
+			return @terminalHoldWrapper
+		end
+
+		def setTerminalHold(value) 
+			@terminalHold = value
+		end
+
+		def getTerminalHold()
+			return @terminalHold
+		end
+
 		def setPaths(paths)
 			@paths = paths
 		end
@@ -104,8 +122,9 @@ module Findex
 		end
 
 		def execute_gui()
+
 			comand = getComand
-			comand = "gksudo --message 'Enter password to run #{comand} as root' #{comand}" if @root
+			comand = "/usr/bin/gksu -k #{comand}" if @root
 
 			exec("#{comand}")
 		end
@@ -115,9 +134,13 @@ module Findex
 			title = @comand if @title == nil
 
 			comand = getComand
-			comand = "echo 'Enter password to run #{comand} as root' && sudo #{comand}" if @root
+			comand = "/usr/bin/sudo #{comand}" if @root
 
-			wrapper = getTerminalWrapper
+			if @terminalHold
+				wrapper = getTerminalHoldWrapper
+			else
+				wrapper = getTerminalWrapper
+			end
 
 			exec("#{wrapper.gsub('%TITLE%', title).gsub('%COMAND%', comand)}")
 		end
