@@ -3,6 +3,7 @@ require 'yaml'
 require 'fileutils'
 
 require_relative './dmenu.rb'
+require_relative './rofi.rb'
 require_relative './history.rb'
 require_relative './bincache.rb'
 require_relative './comand.rb'
@@ -80,19 +81,7 @@ module Findex
 		end
 
 		def initDmenu
-			@dmenu = Findex::Dmenu.new fg: @config['colors']['foreground'], bg: @config['colors']['background']
-			@dmenu.toggleStdin
-			@dmenu.toggleCase
-			@dmenu.setLines @config['dropdown_size']
-
-			if @config.key?('monitor')
-				monitor = @config['monitor']
-
-				if monitor != 'auto'
-					@dmenu.setMonitor monitor.to_i
-				end
-			end
-
+			@dmenu = Findex::Rofi.new
 		end
 
 		def initHistory
